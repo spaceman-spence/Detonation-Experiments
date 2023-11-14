@@ -1,10 +1,6 @@
 %% X Energy Lab Schlieren Video Processing Code V1.0.1 (avi edition)
 % Last Update: 11/13/23 by Spencer K
 %
-%
-% This is a dummy line added from github. This is to see if it will transfer properly
-%
-
 % This version takes in a .avi video recorded in gray scale. This version
 % also only manipulates 8bit data. Still working on how to get the 12
 % videos going. But thats still a work in progress
@@ -36,8 +32,6 @@ clc;close all;clear;
 %Make sure both flags are 1 if going interactive contrast, if it is just
 %the interactive, the whole code will run with the default/initial sigma
 %value set
-
-% This is an extra line i am adding to test github compatibility
 
 contrast=1;%flag for setting contrast
 interactiveContrast=0; %flag to use interactive contrast routine
