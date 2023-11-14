@@ -2,6 +2,9 @@
 % Last Update: 11/13/23 by Spencer K
 %
 %
+% This is a dummy line added from github. This is to see if it will transfer properly
+%
+
 % This version takes in a .avi video recorded in gray scale. This version
 % also only manipulates 8bit data. Still working on how to get the 12
 % videos going. But thats still a work in progress
