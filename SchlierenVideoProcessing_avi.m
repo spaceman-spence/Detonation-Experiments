@@ -33,6 +33,9 @@ clc;close all;clear;
 %Make sure both flags are 1 if going interactive contrast, if it is just
 %the interactive, the whole code will run with the default/initial sigma
 %value set
+
+% This is an extra line i am adding to test github compatibility
+
 contrast=1;%flag for setting contrast
 interactiveContrast=0; %flag to use interactive contrast routine
 
