@@ -1,6 +1,7 @@
 %% X Energy Lab Schlieren Video Processing Code V1.0.1 (mp4 edition)
 % Last Update: 11/13/23 by Spencer K
 %
+%Adding a github dummy line in here as well
 %
 % This version takes in a .mp4 video. MATLAB will read this video as a
 % 3x8 bit RGB file, which means it must first be converted into grayscale,
