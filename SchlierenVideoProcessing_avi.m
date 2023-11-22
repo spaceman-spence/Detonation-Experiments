@@ -1,8 +1,7 @@
-%% X Energy Lab Schlieren Video Processing Code V1.0.1 (avi edition)
-% Last Update: 11/13/23 by Spencer K
+%% X Energy Lab Schlieren Video Processing Code V1.0.2 (avi edition)
+% Written By: Spencer Krock
+% Last Update: 11/22/23 
 %
-% Adding in another dummy line
-% 
 % 
 % This version takes in a .avi video recorded in gray scale. This version
 % also only manipulates 8bit data. Still working on how to get the 12
@@ -19,16 +18,15 @@
 %
 % * If both are 0, then only the background remover runs.
 % * If contrast =1, the set sigma value "sig" will be used to apply contrast
-% to the entire video
+%   to the entire video. Sig can be a vector such as [10 15 20] if several
+%   known sigma values are desired. The code will loop through each sigma
 % * If both "contrast" and "interactiveContrast" are flagged, then a loop
-% will begin after selecting the video to first identify the frame to test
-% contrast against, then different values of the contrast can be
-% experimented with
+%   will begin after selecting the video to first identify the frame to test
+%   contrast against, then different values of the contrast can be
+%   experimented with
 %
-% V1.0.1: Sigma can now be set as an array in case the desired different
-% contrasts are known ahead of time. i got tired of clicking three times
-% when I wanted to do the same set of [10 15 20] so now it can do it
-%
+% V1.0.2: Flag for retaining frame rate implemented. Default output frame
+% rate is 3fps. Set flag to 1 to maintain original video frame rate.
 
 clc;close all;clear;
 
@@ -39,6 +37,7 @@ clc;close all;clear;
 contrast=1;%flag for setting contrast
 interactiveContrast=0; %flag to use interactive contrast routine
 
+retainFrameRate=0; %flag for retaining frame rate from input video. See lines 94-98
 
 sig=[10 15 20];%initial contrast value, set when not using interactive contrast. Can be a vector 
 
@@ -84,13 +83,19 @@ backRef=frames(:,:,1); %get background reference
 tic
 for j=1:length(sig)
     %Prep video writer
-    if contrast
+    
+    if contrast %set up video file name depending on operations performed on it
         extraName=sprintf('_contrast_%.2f-sig',sig(j));
         vidWrite=VideoWriter([pathname filename(1:end-4) extraName]); %set writer object with filename
     else
         vidWrite=VideoWriter([pathname filename(1:end-4) '_noBackground']); %set writer object with filename
     end
-    vidWrite.FrameRate=vid.FrameRate;%Set output framerate to be same as input
+
+    if retainFrameRate %use the same frame rate as input, or hard set it to a value?
+        vidWrite.FrameRate=vid.FrameRate;%Set output framerate to be same as input
+    else
+        vidWrite.FrameRate=3; % output video will play at 3 fps
+    end
     open(vidWrite)
 
     tic
