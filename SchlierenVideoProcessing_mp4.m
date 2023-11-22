@@ -1,5 +1,6 @@
-%% X Energy Lab Schlieren Video Processing Code V1.0.1 (mp4 edition)
-% Last Update: 11/13/23 by Spencer K
+%% X Energy Lab Schlieren Video Processing Code V1.0.2 (mp4 edition)
+% Written By: Spencer Krock
+% Last Update: 11/22/23 
 %
 % This version takes in a .mp4 video. MATLAB will read this video as a
 % 3x8 bit RGB file, which means it must first be converted into grayscale,
@@ -16,25 +17,26 @@
 %
 % * If both are 0, then only the background remover runs.
 % * If contrast =1, the set sigma value "sig" will be used to apply contrast
-% to the entire video
+%   to the entire video. Sig can be a vector such as [10 15 20] if several
+%   known sigma values are desired. The code will loop through each sigma
 % * If both "contrast" and "interactiveContrast" are flagged, then a loop
-% will begin after selecting the video to first identify the frame to test
-% contrast against, then different values of the contrast can be
-% experimented with
+%   will begin after selecting the video to first identify the frame to test
+%   contrast against, then different values of the contrast can be
+%   experimented with
 %
-% V1.0.1: Sigma can now be set as an array in case the desired different
-% contrasts are known ahead of time. i got tired of clicking three times
-% when I wanted to do the same set of [10 15 20] so now it can do it
-%
-%
+% V1.0.2: Flag for retaining frame rate implemented. Default output frame
+% rate is 3fps. Set flag to 1 to maintain original video frame rate.
+
 
 clc;close all;clear;
 
 %Make sure both flags are 1 if going interactive contrast, if it is just
-%the interactive, the whole code will run with the default/initial sigma
+%the interactive, the whole code will run with the default/initial sigma 
 %value set
 contrast=1;%flag for setting contrast
 interactiveContrast=0; %flag to use interactive contrast routine
+
+retainFrameRate=0; %flag for retaining frame rate from input video. See lines 102-106
 
 sig=5;%initial contrast value, set when not using interactive contrast. Can be a vector
 
@@ -96,8 +98,12 @@ for j=1:length(sig)
     else
         vidWrite=VideoWriter([pathname filename(1:end-4) '_noBackground']); %set writer object with filename
     end
-    vidWrite.FrameRate=vid.FrameRate;%Set output framerate to be same as input
-
+    
+    if retainFrameRate %use the same frame rate as input, or hard set it to a value?
+        vidWrite.FrameRate=vid.FrameRate;%Set output framerate to be same as input
+    else
+        vidWrite.FrameRate=3; % output video will play at 3 fps
+    end
     open(vidWrite)
 
     for i=1:f1 %for every file
